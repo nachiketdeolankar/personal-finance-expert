@@ -18,6 +18,18 @@
       "platform" : "ios",
       "size" : "1024x1024"
     },
+    {
+      "appearances" : [
+        {
+          "appearance" : "luminosity",
+          "value" : "tinted"
+        }
+      ],
+      "filename" : "icon_1024_tinted.png",
+      "idiom" : "universal",
+      "platform" : "ios",
+      "size" : "1024x1024"
+    },
     { "idiom" : "mac", "size" : "16x16",   "scale" : "1x", "filename" : "mac_16.png" },
     { "idiom" : "mac", "size" : "16x16",   "scale" : "2x", "filename" : "mac_32.png" },
     { "idiom" : "mac", "size" : "32x32",   "scale" : "1x", "filename" : "mac_32.png" },
