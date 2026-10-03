@@ -22,7 +22,27 @@ final class NavigationRouter: ObservableObject {
     static let shared = NavigationRouter()
     @Published var pending: NavItem?
     @Published var showAddExpense = false   // set by the pfe://add widget deep link
+
+    // Sections that have no tab of their own on iPhone; MainNavigationView turns a
+    // request for one into a push onto the Expenses or Overview stack.
+    @Published var showRecurring = false
+    @Published var showCategories = false
+    @Published var showSettings = false
+
     private init() {}
+
+    /// Handles a widget deep link. Called from the app scene rather than
+    /// MainNavigationView, so a tap that arrives during a cold launch (while the
+    /// lock screen is up) is still honoured once the user unlocks.
+    func handle(_ url: URL) {
+        switch url.host {
+        case "add":       pending = .expenses; showAddExpense = true
+        case "overview":  pending = .dashboard
+        case "expenses":  pending = .expenses
+        case "recurring": pending = .recurring
+        default:          break
+        }
+    }
 }
 
 // MARK: - Shared helpers

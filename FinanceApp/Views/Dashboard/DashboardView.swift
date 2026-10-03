@@ -13,6 +13,7 @@ struct DashboardView: View {
     @State private var debtsTotal: Double = 0
     @State private var netWorthHistory: [NetWorthSnapshot] = []
     @State private var showBudgetEditor = false
+    @ObservedObject private var router = NavigationRouter.shared
 
     var body: some View {
         ScrollView {
@@ -43,6 +44,7 @@ struct DashboardView: View {
                 }
             }
         }
+        .navigationDestination(isPresented: $router.showSettings) { SettingsView() }
         .sheet(isPresented: $showBudgetEditor) { BudgetEditorView() }
         .task {
             let inv = (try? await CloudKitManager.shared.fetchInvestments()) ?? []

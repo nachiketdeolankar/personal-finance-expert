@@ -7,8 +7,7 @@ struct ExpenseListView: View {
     @State private var searchText: String = ""
     @State private var selectedCategoryFilter: String = "all"
     @State private var sortOrder: SortOrder = .dateDesc
-    @State private var showRecurring: Bool = false
-    @State private var showCategories: Bool = false
+    @ObservedObject private var router = NavigationRouter.shared
 
     enum SortOrder: String, CaseIterable {
         case dateDesc  = "Newest First"
@@ -102,8 +101,8 @@ struct ExpenseListView: View {
                     }
                     .pickerStyle(.menu)
                     Section {
-                        Button("Recurring", systemImage: "repeat") { showRecurring = true }
-                        Button("Categories", systemImage: "tag") { showCategories = true }
+                        Button("Recurring", systemImage: "repeat") { router.showRecurring = true }
+                        Button("Categories", systemImage: "tag") { router.showCategories = true }
                     }
                 }
             }
@@ -114,8 +113,8 @@ struct ExpenseListView: View {
                 }
             }
         }
-        .navigationDestination(isPresented: $showRecurring) { RecurringExpenseListView() }
-        .navigationDestination(isPresented: $showCategories) { CategoryManagerView() }
+        .navigationDestination(isPresented: $router.showRecurring) { RecurringExpenseListView() }
+        .navigationDestination(isPresented: $router.showCategories) { CategoryManagerView() }
         .sheet(isPresented: $showAddExpense) {
             AddExpenseView()
         }

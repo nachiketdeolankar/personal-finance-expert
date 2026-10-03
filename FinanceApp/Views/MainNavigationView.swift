@@ -42,21 +42,20 @@ struct MainNavigationView: View {
         .frame(minWidth: 820, minHeight: 620)
         #endif
         .task { await vm.loadAll() }
-        // Deep-link target set by OpenSectionIntent (Siri / Shortcuts).
+        // Deep-link target, set by OpenSectionIntent (Siri / Shortcuts) or by a
+        // widget tap. On iPhone the Manage sections have no tab, so they are pushed
+        // onto the stack of the tab that owns them instead.
         .onReceive(router.$pending) { item in
             guard let item else { return }
-            withAnimation(.snappy(duration: 0.2)) { selected = item }
-            router.pending = nil
-        }
-        // Widget taps (widgetURL) arrive here as pfe:// URLs.
-        .onOpenURL { url in
-            switch url.host {
-            case "add":       selected = .expenses; router.showAddExpense = true
-            case "overview":  selected = .dashboard
-            case "expenses":  selected = .expenses
-            case "recurring": selected = .recurring
-            default: break
+            withAnimation(.snappy(duration: 0.2)) {
+                switch (isCompact, item) {
+                case (true, .recurring):  selected = .expenses;  router.showRecurring = true
+                case (true, .categories): selected = .expenses;  router.showCategories = true
+                case (true, .settings):   selected = .dashboard; router.showSettings = true
+                default:                  selected = item
+                }
             }
+            router.pending = nil
         }
         .sheet(isPresented: $router.showAddExpense) { AddExpenseView() }
     }

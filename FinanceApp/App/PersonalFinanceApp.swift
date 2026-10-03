@@ -48,6 +48,9 @@ struct PersonalFinanceApp: App {
         .environmentObject(storage)
         .task { await ckManager.checkAccountStatus() }
         .task { await ckManager.setupSubscriptions() }
+        // Widget taps (pfe:// URLs) are caught here, above the lock screen, so a
+        // cold-launch tap still lands on the right section after unlocking.
+        .onOpenURL { NavigationRouter.shared.handle($0) }
         // No background locking: switching apps keeps the session and the current tab.
         // Face ID is required only on a cold launch, because AuthenticationManager starts
         // in the .locked state when the process is created (e.g. after the app is killed).
