@@ -88,7 +88,7 @@ negative, category colors in the breakdowns.
 You need Xcode 26 or later with the iOS 26 SDK, and a Mac running macOS 26 or later.
 
 ```bash
-git clone https://github.com/<you>/personal-finance-expert.git
+git clone https://github.com/nachiketdeolankar/personal-finance-expert.git
 cd personal-finance-expert
 open PersonalFinanceExpert.xcodeproj
 ```
